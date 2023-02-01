@@ -1,0 +1,18 @@
+server:
+  port: 9000
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_mt1mX8KOM
+          #jwk-set-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_mt1mX8KOM/.well-known/jwks.json
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: TRACE
+    org.springframework.boot.autoconfigure: INFO

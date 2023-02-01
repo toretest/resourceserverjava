@@ -1,0 +1,93 @@
+package config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+
+/**
+ OAuth2 login should be handled by clients, not resource-server:
+ clients acquire access token and send it as Authorization header to resource-server.
+
+ This configuration class extends ResourceServerConfigurerAdapter and enables
+ a resource server using the @EnableResourceServer annotation.
+ It also uses the @Autowired annotation to inject instances of
+ CognitoJwtDecoder, RoleHierarchy, RoleHierarchyAuthoritiesMapper, and AuthenticationManager.
+
+It uses http.authorizeRequests() to configure the authorization rules.
+ For example, it requires authentication for all requests to the /api endpoint
+ and requires the ADMIN role for all requests to the /admin endpoint.
+
+It also sets up the JWT decoder and converter to use the CognitoJwtDecoder
+ and CognitoJwtGrantedAuthoritiesConverter classes, respectively, and sets the authenticationManager and jwtAuthenticationConverter beans.
+ */
+@Configuration
+@EnableResourceServer
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    @Autowired
+    private CognitoJwtDecoder jwtDecoder;
+
+    @Autowired
+    private RoleHierarchy roleHierarchy;
+
+    @Autowired
+    private RoleHierarchyAuthoritiesMapper roleHierarchyAuthoritiesMapper;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Value("${security.jwt.resource-ids}")
+    private String resourceIds;
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+            .authenticationManager(authenticationManager)
+            .authorizeRequests()
+                .antMatchers("/api/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().permitAll()
+            .and()
+            .exceptionHandling()
+                .authenticationEntryPoint(new Http401AuthenticationEntryPoint("Bearer"))
+            .and()
+            .oauth2ResourceServer()
+                .jwt()
+                    .decoder(jwtDecoder)
+                    .jwtAuthenticationConverter(jwtAuthenticationConverter());
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(new CognitoJwtGrantedAuthoritiesConverter());
+        return converter;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        return new AuthenticationManager() {
+            @Override
+            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                return roleHierarchyAuthoritiesMapper.authenticate(authentication);
+            }
+        };
+    }
+
+    @Bean
+    public CognitoJwtDecoder jwtDecoder() {
+        return new CognitoJwtDecoder(resourceIds);
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        return new RoleHierarchyImpl();
+    }
+
+    @Bean
+    public RoleHierarchyAuthoritiesMapper roleHierarchyAuthoritiesMapper() {
+        return new RoleHierarchyAuthoritiesMapper();
+    }
+}
