@@ -14,7 +14,7 @@ import java.util.Map;
  * Cognito
  * https://www.harshajayamanna.com/2020/07/use-spring-resource-server-with-aws-cognito.html?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed:+HarshaJayamanna+(Harsha+Jayamanna)&m=1
  */
-@Component
+
 public class UsernameSubClaimConverterAdapter implements Converter<Map<String, Object>, Map<String, Object>> {
     private final MappedJwtClaimSetConverter delegate = MappedJwtClaimSetConverter.withDefaults(Collections.emptyMap());
 
@@ -25,6 +25,7 @@ public class UsernameSubClaimConverterAdapter implements Converter<Map<String, O
 
     @Override
     public Map<String, Object> convert(Map<String, Object> claims) {
+        System.out.println("*************************************");
         Map<String, Object> convertedClaims = this.delegate.convert(claims);
 
         if (claims.containsKey("cognito:groups")) {

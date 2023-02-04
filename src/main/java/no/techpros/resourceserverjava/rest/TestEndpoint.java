@@ -1,8 +1,10 @@
+/*
 package restendpoints;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -10,18 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class StatusEndpoint {
+@RequestMapping("/test")
+public class TestEndpoint {
 
-    @GetMapping("status")
-    public String getStatus() {
-        return "Ok";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ROLE_ADMIN')")
-    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = { "application/json",
-            "application/xml" })
-    @ResponseBody
-    @ResponseStatus(code = HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/toregard")
     public Map<String, String> get() {
 
         String hostname = null;
@@ -39,3 +34,4 @@ public class StatusEndpoint {
         return map;
     }
 }
+*/
