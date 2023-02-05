@@ -19,7 +19,6 @@ logging:
     org.springframework.boot.autoconfigure: INFO
     web: TRACE
 
-# see https://stackoverflow.com/questions/74695989/im-using-cognito-spring-security-there-are-any-way-to-use-authorization
 com:
   c4-soft:
     springaddons:
