@@ -1,18 +1,31 @@
 server:
   port: 9000
 
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_mt1mX8KOM
-          #jwk-set-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_mt1mX8KOM/.well-known/jwks.json
+#spring:
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_rWeQ1VScX
+#          wk-set-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_rWeQ1VScX/.well-known/jwks.json
+
 
 logging:
   level:
     root: INFO
-    org.springframework.web: INFO
+    org.springframework.web: TRACE
     org.springframework.security: INFO
-    org.springframework.security.oauth2: TRACE
+    org.springframework.security.oauth2: INFO
     org.springframework.boot.autoconfigure: INFO
+    web: TRACE
+
+# see https://stackoverflow.com/questions/74695989/im-using-cognito-spring-security-there-are-any-way-to-use-authorization
+com:
+  c4-soft:
+    springaddons:
+      security:
+        issuers[0]:
+          location: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_rWeQ1VScX
+          authorities:
+            claims: cognito:groups
+        permit-all:
