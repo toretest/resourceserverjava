@@ -2,9 +2,15 @@
 
 ##
 
-docker build --build-arg JAR_FILE=target/resourceserverjava-0.0.1-SNAPSHOT.jar -t toregard/resourceservicejava .
+docker build --tag=toregard/resourceserverjavaapplication --force-rm=true .
 
-## Refs
+docker build -t resourceserverjavaapplication --force-rm=true .
+
+docker tag resourceserverjavaapplication:latest 664217140649.dkr.ecr.eu-west-1.amazonaws.com/resourceserverjavaapplication:latest
+
+docker push 664217140649.dkr.ecr.eu-west-1.amazonaws.com/resourceserverjavaapplication:latest
+
+## Ref
 
 ### Springdoc-openapi c2.0.2
 
