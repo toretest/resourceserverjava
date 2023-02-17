@@ -1,14 +1,18 @@
 package no.techpros.resourceserverjava.rest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+import static org.springframework.security.config.Elements.JWT;
+
 @RestController
 @RequestMapping("/resources")
 public class ResourceController {
+
     /**
      * Must be open
      * @return
@@ -29,6 +33,12 @@ public class ResourceController {
     public String adminEndpoint(Principal principal)
     {
         return "adminEndpoint with role"+((JwtAuthenticationToken) principal).getAuthorities();
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','VIEW_CUSTOMER')")
+     @GetMapping("/token")
+    public Jwt getToken(Principal principal){
+        return((JwtAuthenticationToken) principal).getToken();
     }
 
     /**
@@ -59,3 +69,6 @@ public class ResourceController {
         return "I am deleting " + s;
     }
 }
+
+
+

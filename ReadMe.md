@@ -1,5 +1,9 @@
 # Documents
 
+##
+
+docker build --build-arg JAR_FILE=target/resourceserverjava-0.0.1-SNAPSHOT.jar -t toregard/resourceservicejava .
+
 ## Refs
 
 ### Springdoc-openapi c2.0.2
@@ -14,6 +18,10 @@ https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/
 ### Spring And Spring Boot Versions
 
 https://www.marcobehler.com/guides/spring-and-spring-boot-versions
+
+### openapi doc
+
+https://springdoc.org/v2/
 
 ### Upgrade Spring v 3
 
@@ -31,11 +39,23 @@ https://docs.spring.io/spring-security/reference/servlet/authorization/method-se
 Spring addon security 
 https://github.com/ch4mpy/spring-addons#custom
 
+Generate JWT and user / password Spring Boot <3
+
+https://www.javainuse.com/spring/boot-jwt
+or
+https://www.codejava.net/frameworks/spring-boot/spring-security-jwt-authentication-tutorial
+with roles
+https://www.codejava.net/frameworks/spring-boot/spring-security-jwt-role-based-authorization
+
+Spring boot >=3 
+https://bootify.io/spring-rest/rest-api-spring-security-with-jwt.html
+
 ## Amazone
 
 ### How to Generate Amazon Cognito Access Using Postman
 
 https://www.czetsuyatech.com/2021/01/aws-generate-cognito-access-token.html
+
 
 Security AWS cognito Spring boot lenker
 
