@@ -9,6 +9,8 @@ server:
 #          issuer-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_rWeQ1VScX
 #          wk-set-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_rWeQ1VScX/.well-known/jwks.json
 
+toregard:
+  verdi: ${1:0}
 
 logging:
   level:
@@ -27,4 +29,3 @@ com:
           location: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_rWeQ1VScX
           authorities:
             claims: cognito:groups
-        permit-all:
